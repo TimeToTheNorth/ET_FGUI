@@ -24,12 +24,12 @@ namespace ET
 	{
 		public static void OnLogin(this UILoginComponent self)
 		{
-			// LoginHelper.Login(
-			// 	self.DomainScene(), 
-			// 	ConstValue.LoginAddress, 
-			// 	self.account.GetComponent<InputField>().text, 
-			// 	self.password.GetComponent<InputField>().text).Coroutine();
-			LoginHelper.LoginTest(self.DomainScene(), ConstValue.LoginAddress).Coroutine();
+			LoginHelper.Login(
+				self.DomainScene(), 
+				ConstValue.LoginAddress, 
+				self.account.GetComponent<InputField>().text, 
+				self.password.GetComponent<InputField>().text).Coroutine();
+		//	LoginHelper.LoginTest(self.DomainScene(), ConstValue.LoginAddress).Coroutine();
 		}
 	}
 }

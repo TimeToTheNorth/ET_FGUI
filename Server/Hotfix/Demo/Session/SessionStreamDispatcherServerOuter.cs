@@ -9,8 +9,8 @@ namespace ET
         public void Dispatch(Session session, MemoryStream memoryStream)
         {
             ushort opcode = BitConverter.ToUInt16(memoryStream.GetBuffer(), Packet.KcpOpcodeIndex);
-            Type type = OpcodeTypeComponent.Instance.GetType(opcode);
-            object message = MessageSerializeHelper.DeserializeFrom(opcode, type, memoryStream);
+            Type type = OpcodeTypeComponent.Instance.GetType(opcode);//根据操作码 获得对应的类型
+            object message = MessageSerializeHelper.DeserializeFrom(opcode, type, memoryStream);//反序列化 proto从内存流读取数据 根据类型 赋值返回
 
             if (message is IResponse response)
             {

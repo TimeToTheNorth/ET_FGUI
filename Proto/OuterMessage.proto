@@ -268,6 +268,32 @@ message R2C_SayGoodBye //IMessage
 	string GoodBye = 1;
 }
 
+//ResponseType M2C_TestActorLocationResponse
+message C2M_TestActorLocationReqeust //IActorLocationRequest
+{
+	int32 RpcId  = 90;
+	string Content  = 1;
+}
+
+message M2C_TestActorLocationResponse //IActorLocationResponse
+{
+	int32 RpcId = 90;
+	int32 Error =  91; 
+	string Message =  92;
+	string Content = 1; 
+}
+
+message C2M_TestActorLocationMessage //IActorLocationMessage
+{
+	int32 RpcId = 90;
+	string Content = 1;
+}
+
+message M2C_TestActorMessage //IActorMessage
+{	
+	string Content = 1;
+
+}
 
 
 

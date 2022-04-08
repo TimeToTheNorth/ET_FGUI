@@ -28,7 +28,7 @@ namespace ET
         
         private HashSet<ushort> outrActorMessage = new HashSet<ushort>();
         
-        private readonly Dictionary<ushort, Type> opcodeTypes = new Dictionary<ushort, Type>();
+        private readonly Dictionary<ushort, Type> opcodeTypes = new Dictionary<ushort, Type>();//操作码 对应的类型
         private readonly Dictionary<Type, ushort> typeOpcodes = new Dictionary<Type, ushort>();
         
         private readonly Dictionary<Type, Type> requestResponse = new Dictionary<Type, Type>();
