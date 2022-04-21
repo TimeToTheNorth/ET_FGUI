@@ -15,9 +15,18 @@ public class FairyCodeTool : BaseWindow
     string selectedComponentName;
     private Vector2 _scrollPos;
     private Vector2 _scrollPos2;
-    private string generateScriptPath = "Assets/Scripts/UI/";
+  //  private string generateScriptPath = "Assets/Scripts/UI/";
+  //  private string generateScriptPath1 = "/.../Scripts/UI/";
     private string baseScriptPath = "Assets/Scripts/UI/BaseClass/";
     private string packageResPath = "Assets/Resources/FGUI/";
+    
+    
+    
+    private static  string GenSystemCodePath =  Application.dataPath.Replace("Unity/Assets", "Unity/Codes/HotfixView/Demo/FGUI/");
+    private static string GenComponetCodePath;
+    private static  string GenFguiinitCodePath = Application.dataPath + "/../Codes/HotfixView/Demo/FGUI";
+    
+    
     private List<UIPackage> pkgs;
     private int cnt;
     private string packageDes;
@@ -175,8 +184,19 @@ public class FairyCodeTool : BaseWindow
     private Dictionary<string, StringBuilder> _btnClickRemoveDic = new Dictionary<string, StringBuilder>();
     private List<StringBuilder> btnClickMethod = new List<StringBuilder>();
 
+    /// <summary>
+    /// 生成代码
+    /// </summary>
+    /// <param name="comName"></param>
+    /// <param name="packgeName"></param>
+    /// <param name="view"></param>
+    /// <param name="isReGet"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     private string GenerateCode(string comName, string packgeName, GObject view, bool isReGet)
     {
+        
+        GenComponetCodePath = Application.dataPath.Replace("Unity/Assets", "Unity/Codes/Model/Demo/FGUI/ComBasics/");
         _nameCodeDic = new Dictionary<string, StringBuilder>();
         _getDic = new Dictionary<string, StringBuilder>();
         _setTxtDic = new Dictionary<string, StringBuilder>();
@@ -185,7 +205,9 @@ public class FairyCodeTool : BaseWindow
         btnClickMethod = new List<StringBuilder>();
 
         StringBuilder code = new StringBuilder();
-        string path = generateScriptPath + packgeName + "/";
+        
+      //  string path = generateScriptPath + packgeName + "/";
+        string path = GenComponetCodePath + packgeName + "/";
         string className = FairyCodeHelper.GetClassName(comName);
         string extentionClass = FairyCodeHelper.GetExtentionClassName(comName, view);
         ReadAllChild(view, 0, "", extentionClass);
@@ -200,8 +222,9 @@ public class FairyCodeTool : BaseWindow
         if (!isReGet)
         {
             code.Append("using FairyGUI;\n");
-            code.Append("using BaseClass;\n");
+            // code.Append("using BaseClass;\n");
             code.Append("using FairyGUI.Utils;\n\n");
+            code.Append("namespace ET\n{");
             code.Append($"public class {className} : {extentionClass}\n");
             code.Append("{\n");
         }
@@ -219,7 +242,7 @@ public class FairyCodeTool : BaseWindow
         {
             code.Append($"\tpublic static {className} GetInstance()\n");
             code.Append("\t{\n");
-            code.Append($"\t\treturn UIManager.Instance.GetWindow<{className}>(UIEnum.{comName});\n");
+            code.Append($"\t\treturn UIManagerComponent.GetWindow<{className}>(UIEnum.{comName});\n");
             code.Append("\t}\n\n");
         }
 
@@ -334,6 +357,7 @@ public class FairyCodeTool : BaseWindow
             }
 
             code.Append("}\n\n");
+            code.Append("}\n");
         }
 
         if (!string.IsNullOrEmpty(code.ToString()))

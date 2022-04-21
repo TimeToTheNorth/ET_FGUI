@@ -120,5 +120,10 @@ namespace ET
 		{
 			return this.allTypes;
 		}
+
+		public Assembly GetAssembly()
+		{
+			return this.assembly;
+		}
 	}
 }
