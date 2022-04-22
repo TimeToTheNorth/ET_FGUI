@@ -26,9 +26,9 @@ namespace ET
             Game.Scene.AddComponent<AIDispatcherComponent>();
 
             Game.Scene.AddComponent<UIManagerComponent>();
-            
-            Game.Scene.GetComponent<UIManagerComponent>().OpenWindow(UIEnum.Panel_Main, UIPackageEnum.Main);
-          
+
+            Game.Scene.GetComponent<UIManagerComponent>();//.OpenWindow(UIEnum.Panel_Main, UIPackageEnum.Main);
+            Game.Scene.GetComponent<UIManagerComponent>().AddComponent<UIMainPanelComponent>().Show();
             
             
             await ResourcesComponent.Instance.LoadBundleAsync("unit.unity3d");

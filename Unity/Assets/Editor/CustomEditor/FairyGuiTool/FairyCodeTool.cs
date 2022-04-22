@@ -240,10 +240,10 @@ public class FairyCodeTool : BaseWindow
 
         if (extentionClass == "BaseUI")
         {
-            code.Append($"\tpublic static {className} GetInstance()\n");
-            code.Append("\t{\n");
-            code.Append($"\t\treturn UIManagerComponent.GetWindow<{className}>(UIEnum.{comName});\n");
-            code.Append("\t}\n\n");
+            // code.Append($"\tpublic static {className} GetInstance()\n");
+            // code.Append("\t{\n");
+            // code.Append($"\t\treturn UIManagerComponent.GetWindow<{className}>(UIEnum.{comName});\n");
+            // code.Append("\t}\n\n");
         }
 
         if (extentionClass == "BaseUI")
@@ -416,6 +416,7 @@ public class FairyCodeTool : BaseWindow
             else
             {
                 File.WriteAllText(path + $"{className}.cs", code.ToString());
+                GenerateETCode.GenerateCode(className);
                 Debug.Log("代码自动生成成功");
                 AssetDatabase.Refresh();
             }

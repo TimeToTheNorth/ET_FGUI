@@ -1,10 +1,7 @@
-﻿namespace ET
+namespace ET
 {
-    public class UIMainPanelComponent:Entity,IAwake
+    public class UIMainPanelComponent: Entity, IAwake
     {
-
         public UIMainController UIMainController;
-
-
     }
 }
