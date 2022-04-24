@@ -294,64 +294,10 @@ public class FairyCodeTool: BaseWindow
         code.Append("\t\t#endregion\n");
         code.Append("\t}\n\n");
 
-        // if (_btnClickAddDic.Count > 0)
-        // {
-        //     code.Append("\t#region 自动注册\\销毁按钮事件\n\n");
-        //     if (extentionClass == "BaseUI")
-        //     {
-        //         code.Append("\tpublic override void AddEvent()\n");
-        //     }
-        //     else
-        //     {
-        //         code.Append("\tpublic void AddEvent()\n");
-        //     }
-        //
-        //     code.Append("\t{\n");
-        //     foreach (var keyValuePair in _btnClickAddDic)
-        //     {
-        //         code.Append(keyValuePair.Value);
-        //     }
-        //
-        //     code.Append("\t}\n\n");
-        //
-        //     if (extentionClass == "BaseUI")
-        //     {
-        //         code.Append("\tpublic override void DelEvent()\n");
-        //     }
-        //     else
-        //     {
-        //         code.Append("\tpublic void DelEvent()\n");
-        //     }
-        //
-        //     code.Append("\t{\n");
-        //     foreach (var keyValuePair in _btnClickRemoveDic)
-        //     {
-        //         code.Append(keyValuePair.Value);
-        //     }
-        //
-        //     code.Append("\t}\n\n");
-        //     code.Append("\t#endregion\n\n");
-        // }
-
         code.Append("\n\t#endregion 自动生成可替换代码结束\n\n");
-
-        // if (extentionClass != "BaseUI" && !isReGet)
-        // {
-        //     code.Append("\tpublic void Init()\n");
-        //     code.Append("\t{\n");
-        //     code.Append("\t\tDelEvent();\n");
-        //     code.Append("\t\tAddEvent();\n");
-        //     code.Append("\t}\n");
-        // }
 
         if (!isReGet)
         {
-            foreach (var item in btnClickMethod)
-            {
-                code.Append("\t");
-                code.Append(item);
-            }
-
             code.Append("}\n\n");
             code.Append("}\n");
         }
@@ -410,8 +356,8 @@ public class FairyCodeTool: BaseWindow
             else
             {
                 File.WriteAllText(path + $"{className}.cs", code.ToString());
-                GenerateETCode.GenerateETComponentCode(className,extentionClass);
-                GenerateETCode.GenerateETComponentSystemCode(className, comName, packgeName,extentionClass);
+                GenerateETCode.GenerateETComponentCode(className, extentionClass, packgeName);
+                GenerateETCode.GenerateETComponentSystemCode(className, comName, packgeName, extentionClass);
                 Debug.Log("代码自动生成成功");
                 AssetDatabase.Refresh();
             }

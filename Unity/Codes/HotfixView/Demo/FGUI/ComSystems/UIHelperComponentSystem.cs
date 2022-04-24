@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace ET
 {
-    public class UIHelperComponentAwakeSystem: AwakeSystem<UIManagerComponent>
+    public class UIManagerComponentAwakeSystem: AwakeSystem<UIManagerComponent>
     {
         public override void Awake(UIManagerComponent self)
         {
@@ -13,7 +13,7 @@ namespace ET
         }
     }
 
-    public static class UIHelperComponentSystem
+    public static class UIManagerComponentSystem
     {
         public static void Awake(this UIManagerComponent self)
         {

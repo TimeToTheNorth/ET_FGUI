@@ -27,7 +27,7 @@ namespace ET
 
             Game.Scene.AddComponent<UIManagerComponent>();
 
-            Game.Scene.GetComponent<UIManagerComponent>();//.OpenWindow(UIEnum.Panel_Main, UIPackageEnum.Main);
+            Game.Scene.GetComponent<UIManagerComponent>();
             Game.Scene.GetComponent<UIManagerComponent>().AddComponent<UIMainPanelComponent>().Show();
             
             

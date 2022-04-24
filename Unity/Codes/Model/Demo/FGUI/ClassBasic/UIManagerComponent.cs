@@ -27,10 +27,13 @@ namespace ET
         public readonly Dictionary<UIEnum, BaseUI> _uiDictionary = new Dictionary<UIEnum, BaseUI>();
 
         /// <summary>
-        /// 所有被打开的ui
+        /// 所有被打开的ui的集合
         /// </summary>
         public readonly Dictionary<UIEnum, BaseUI> _openedUiDictionary = new Dictionary<UIEnum, BaseUI>();
 
+        /// <summary>
+        /// 等待的弹窗集合
+        /// </summary>
         public readonly Stack<BaseUI> _waitOpenUiStack = new Stack<BaseUI>();
 
         public BaseUI _openedPopupUi;

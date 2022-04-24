@@ -1,6 +1,5 @@
 using FairyGUI;
 using FairyGUI.Utils;
-using UnityEngine;
 
 namespace ET
 {public class UIMainController : BaseUI
@@ -47,22 +46,13 @@ namespace ET
 		Text_MoveTimes = contentPane.GetChild("Text_MoveTimes") as GTextField;
 		Text_ActionName = contentPane.GetChild("Text_ActionName") as GTextField;
 		Unit_PlayerData00 = contentPane.GetChild("Unit_PlayerData00") as FairyGUI.GComponent;
-		Debug.Log(Unit_PlayerData00.name);
 		Unit_PlayerData01 = contentPane.GetChild("Unit_PlayerData01") as FairyGUI.GComponent;
-		
+
 		#endregion
 	}
 
-	#region 自动注册\销毁按钮事件
-
-
-
-	#endregion
-
 
 	#endregion 自动生成可替换代码结束
-
-	
 
 }
 

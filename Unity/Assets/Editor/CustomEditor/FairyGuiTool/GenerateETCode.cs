@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using UnityEditor;
 using UnityEngine;
 
 public static class GenerateETCode
@@ -8,9 +9,16 @@ public static class GenerateETCode
     /// 生成ET 组件代码
     /// </summary>
     /// <param name="ClassName"></param>
-    public static void GenerateETComponentCode(string ClassName,string extensionClass)
+    public static void GenerateETComponentCode(string ClassName, string extensionClass, string packgeName)
     {
-        string path = Application.dataPath.Replace("Unity/Assets", "Unity/Codes/Model/Demo/FGUI/Coms/");
+        string path = Application.dataPath.Replace("Unity/Assets", $"Unity/Codes/Model/Demo/FGUI/Coms/{packgeName}/");
+
+        DirectoryInfo info = new DirectoryInfo(path);
+        if (!info.Exists)
+        {
+            Directory.CreateDirectory(path);
+            AssetDatabase.Refresh();
+        }
 
         StringBuilder code = new StringBuilder();
 
@@ -18,13 +26,13 @@ public static class GenerateETCode
         etClass = (string)ClassName.Clone();
         etClass = GetClassName(etClass);
         code.Append("namespace ET\n{");
-     
-        
+
         string InheritClassName = "Entity," + "IAwake";
-        if (extensionClass!="BaseUI")
+        if (extensionClass != "BaseUI")
         {
             InheritClassName += $",IAwake<{extensionClass}>";
         }
+
         code.Append($"public class {etClass} :{InheritClassName}\n");
         code.Append("{\n");
         code.Append($"public {ClassName} {ClassName};\n");
@@ -55,20 +63,27 @@ public static class GenerateETCode
     /// <param name="ClassName"></param>
     /// <param name="comName"></param>
     /// <param name="packgeName"></param>
-    public static void GenerateETComponentSystemCode(string ClassName, string comName, string packgeName,string extensionClass)
+    public static void GenerateETComponentSystemCode(string ClassName, string comName, string packgeName, string extensionClass)
     {
-        string path = Application.dataPath.Replace("Unity/Assets", "Unity/Codes/HotfixView/Demo/FGUI/ComSystems/");
+        string path = Application.dataPath.Replace("Unity/Assets", $"Unity/Codes/HotfixView/Demo/FGUI/ComSystems/{packgeName}/");
+
+        DirectoryInfo info = new DirectoryInfo(path);
+        if (!info.Exists)
+        {
+            Directory.CreateDirectory(path);
+            AssetDatabase.Refresh();
+        }
 
         StringBuilder code = new StringBuilder();
         string etClass = null;
         etClass = (string)ClassName.Clone();
         etClass = GetClassName(etClass);
-        
+
         code.Append("using FairyGUI;\n");
         code.Append("namespace ET\n{");
         if (ClassName.Contains("UnitComponentData")) //如果是扩展组件
         {
-            GenerateETUnitComponentSystemCode(code, etClass, ClassName,extensionClass);
+            GenerateETUnitComponentSystemCode(code, etClass, ClassName, extensionClass);
             code.Append("}\n");
             File.WriteAllText(path + $"{etClass}System.cs", code.ToString());
             return;
@@ -90,8 +105,8 @@ public static class GenerateETCode
 
         code.Append($"public static void Awake(this {etClass} self)\n");
         code.Append("{\n");
-        code.Append($"string name= UIHelperComponentSystem.GetClassName(UIEnum.{comName}.ToString());");
-        code.Append($"self.{ClassName} =({ClassName}) UIHelperComponentSystem.LoadWindow(name);");
+        code.Append($"string name= UIManagerComponentSystem.GetClassName(UIEnum.{comName}.ToString());");
+        code.Append($"self.{ClassName} =({ClassName}) UIManagerComponentSystem.LoadWindow(name);");
         code.Append($" self.{ClassName}.SelfUIPackageEnum = UIPackageEnum.{packgeName};");
         code.Append($" self.{ClassName}.UiEnum = UIEnum.{comName};");
         code.Append("}\n");
@@ -138,7 +153,7 @@ public static class GenerateETCode
         File.WriteAllText(path + $"{etClass}System.cs", code.ToString());
     }
 
-    public static void GenerateETUnitComponentSystemCode(StringBuilder code, string etClass, string ClassName,string extensionClass)
+    public static void GenerateETUnitComponentSystemCode(StringBuilder code, string etClass, string ClassName, string extensionClass)
     {
         string InheritClassName = $"AwakeSystem<{etClass},{extensionClass}>";
         code.Append($"public class {etClass}AwakeSystem :{InheritClassName}\n");
