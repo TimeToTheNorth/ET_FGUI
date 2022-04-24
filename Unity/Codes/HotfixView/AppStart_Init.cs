@@ -24,9 +24,18 @@ namespace ET
             Game.Scene.AddComponent<GlobalComponent>();
 
             Game.Scene.AddComponent<AIDispatcherComponent>();
+
+            Game.Scene.AddComponent<UIManagerComponent>();
+
+            Game.Scene.GetComponent<UIManagerComponent>();
+            Game.Scene.GetComponent<UIManagerComponent>().AddComponent<UIMainPanelComponent>().Show();
+            
+            
             await ResourcesComponent.Instance.LoadBundleAsync("unit.unity3d");
             
             Scene zoneScene = SceneFactory.CreateZoneScene(1, "Game", Game.Scene);
+            
+            
             
             await Game.EventSystem.PublishAsync(new EventType.AppStartInitFinish() { ZoneScene = zoneScene });
         }
