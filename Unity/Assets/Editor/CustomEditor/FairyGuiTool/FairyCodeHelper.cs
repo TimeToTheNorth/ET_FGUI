@@ -115,7 +115,8 @@ public static class FairyCodeHelper
         }
         else if (comName.StartsWith(UnitTag))
         {
-            return comName.Replace(UnitTag, "UI") + "Compoment";
+          
+            return comName.Replace(UnitTag, "UI") + "UnitComponentData";
         }
 
         return null;

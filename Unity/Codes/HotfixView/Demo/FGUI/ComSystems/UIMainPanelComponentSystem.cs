@@ -1,4 +1,4 @@
-﻿using System;
+using FairyGUI;
 using UnityEngine;
 
 namespace ET
@@ -15,57 +15,48 @@ namespace ET
     {
         public static void Awake(this UIMainPanelComponent self)
         {
-            string name= UIHelperComponentSystem.GetClassName(UIEnum.Panel_Main.ToString());
-            self.UIMainController =(UIMainController) UIHelperComponentSystem.LoadWindow(name);
-            self.UIMainController.SelfUIPackageEnum = UIPackageEnum.Main;
+            string name = UIHelperComponentSystem.GetClassName(UIEnum.Panel_Main.ToString());
+            self.UIMainController = (UIMainController)UIHelperComponentSystem.LoadWindow(name);
+            self.UIMainController.SelfUIPackageEnum = UIPackageEnum.MainPackage;
             self.UIMainController.UiEnum = UIEnum.Panel_Main;
         }
 
         public static void Show(this UIMainPanelComponent self)
         {
             Game.Scene.GetComponent<UIManagerComponent>().OpenWindow(self.UIMainController);
+            self.AddChild<UIPlayerUnitComponent,GComponent>(self.UIMainController.Unit_PlayerData00);//todo 扩展组件awake的方法触发的方法 
+            self.AddChild<UIPlayerUnitComponent,GComponent>(self.UIMainController.Unit_PlayerData01);//todo 扩展组件awake的方法触发的方法 
+            
             self.OnShow();
         }
 
-        private static void OnShow(this UIMainPanelComponent self)
+        public static void OnShow(this UIMainPanelComponent self)
         {
             self.AddEvent();
         }
 
-        //添加事件监听
         public static void AddEvent(this UIMainPanelComponent self)
         {
-            self.UIMainController.Graph_Ground.onClick.Add(() =>
+            self.UIMainController.Btn_Down.onClick.Add(() =>
             {
-                Debug.Log("点击+++++++++");
-                self.Hide();
+                Debug.Log("按下下方向键");
             });
         }
 
-        //移除事件监听
         public static void DelEvent(this UIMainPanelComponent self)
         {
-            self.UIMainController.Graph_Ground.onClick.Clear();
         }
 
         public static void Hide(this UIMainPanelComponent self)
         {
-            Game.Scene.GetComponent<UIManagerComponent>().CloseWindow(UIEnum.Panel_Main);
+            Game.Scene.GetComponent<UIManagerComponent>().CloseWindow(self.UIMainController);
             self.DelEvent();
         }
 
-        /// <summary>
-        /// 跳转打开其他界面
-        /// </summary>
         public static void TurnToOpenPanel(this UIMainPanelComponent self, UIEnum className, UiLayer layer,
-        UIPackageEnum packageName = UIPackageEnum.Null, bool isModal = false,
-        params object[] values)
+        UIPackageEnum packageName = UIPackageEnum.Null, bool isModal = false, params object[] values)
         {
-            self.UIMainController.children = Game.Scene.GetComponent<UIManagerComponent>().OpenWindow(className, packageName, layer, isModal, values);
-            if (self.UIMainController.children != null)
-            {
-                self.UIMainController.children.Selfparent = self.UIMainController;
-            }
+            Game.Scene.GetComponent<UIManagerComponent>().TurnToOpenPanel(self.UIMainController, className, layer, packageName, isModal, values);
         }
     }
 }

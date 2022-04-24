@@ -7,26 +7,24 @@ using FairyGUIEditor;
 using UnityEditor;
 using UnityEngine;
 
-
-public class FairyCodeTool : BaseWindow
+public class FairyCodeTool: BaseWindow
 {
     int selectedPackage = -1;
     string selectedPackageName;
     string selectedComponentName;
     private Vector2 _scrollPos;
+
     private Vector2 _scrollPos2;
-  //  private string generateScriptPath = "Assets/Scripts/UI/";
-  //  private string generateScriptPath1 = "/.../Scripts/UI/";
-    private string baseScriptPath = "Assets/Scripts/UI/BaseClass/";
+
+    //  private string generateScriptPath = "Assets/Scripts/UI/";
+    //  private string generateScriptPath1 = "/.../Scripts/UI/";
+    // private string baseScriptPath = "Assets/Scripts/UI/BaseClass/";
     private string packageResPath = "Assets/Resources/FGUI/";
-    
-    
-    
-    private static  string GenSystemCodePath =  Application.dataPath.Replace("Unity/Assets", "Unity/Codes/HotfixView/Demo/FGUI/");
+
+    //    private static  string GenSystemCodePath =  Application.dataPath.Replace("Unity/Assets", "Unity/Codes/HotfixView/Demo/FGUI/");
     private static string GenComponetCodePath;
-    private static  string GenFguiinitCodePath = Application.dataPath + "/../Codes/HotfixView/Demo/FGUI";
-    
-    
+    //  private static  string GenFguiinitCodePath = Application.dataPath + "/../Codes/HotfixView/Demo/FGUI";
+
     private List<UIPackage> pkgs;
     private int cnt;
     private string packageDes;
@@ -34,7 +32,7 @@ public class FairyCodeTool : BaseWindow
     [MenuItem("Custom Editor/FairyGUI代码生成")]
     static void Init()
     {
-        UnityEditor.EditorWindow window = GetWindow(typeof(FairyCodeTool));
+        UnityEditor.EditorWindow window = GetWindow(typeof (FairyCodeTool));
         window.Show();
     }
 
@@ -147,8 +145,7 @@ public class FairyCodeTool : BaseWindow
         EditorGUILayout.EndHorizontal();
 
         EditorGUILayout.BeginHorizontal();
-        GUILayout.Label(
-            "主界面  \"Panel_\"\n装载器  \"Loader_\"\n进度条  \"Pro_\"\n按钮     \"Btn_\"\n文本     \"Text_\"\n图片     \"Image_\"\n组件   " +
+        GUILayout.Label("主界面  \"Panel_\"\n装载器  \"Loader_\"\n进度条  \"Pro_\"\n按钮     \"Btn_\"\n文本     \"Text_\"\n图片     \"Image_\"\n组件   " +
             "  \"Com_\"\n列表     \"List_\"\n图像     \"Graph_\"\n组       \"Group_\" \n输入文本       \"TextInput_\" \n");
         EditorGUILayout.EndHorizontal();
         GUILayout.EndVertical();
@@ -195,7 +192,6 @@ public class FairyCodeTool : BaseWindow
     /// <exception cref="Exception"></exception>
     private string GenerateCode(string comName, string packgeName, GObject view, bool isReGet)
     {
-        
         GenComponetCodePath = Application.dataPath.Replace("Unity/Assets", "Unity/Codes/Model/Demo/FGUI/ComBasics/");
         _nameCodeDic = new Dictionary<string, StringBuilder>();
         _getDic = new Dictionary<string, StringBuilder>();
@@ -205,8 +201,8 @@ public class FairyCodeTool : BaseWindow
         btnClickMethod = new List<StringBuilder>();
 
         StringBuilder code = new StringBuilder();
-        
-      //  string path = generateScriptPath + packgeName + "/";
+
+        //  string path = generateScriptPath + packgeName + "/";
         string path = GenComponetCodePath + packgeName + "/";
         string className = FairyCodeHelper.GetClassName(comName);
         string extentionClass = FairyCodeHelper.GetExtentionClassName(comName, view);
@@ -298,55 +294,55 @@ public class FairyCodeTool : BaseWindow
         code.Append("\t\t#endregion\n");
         code.Append("\t}\n\n");
 
-        if (_btnClickAddDic.Count > 0)
-        {
-            code.Append("\t#region 自动注册\\销毁按钮事件\n\n");
-            if (extentionClass == "BaseUI")
-            {
-                code.Append("\tpublic override void AddEvent()\n");
-            }
-            else
-            {
-                code.Append("\tpublic void AddEvent()\n");
-            }
-
-            code.Append("\t{\n");
-            foreach (var keyValuePair in _btnClickAddDic)
-            {
-                code.Append(keyValuePair.Value);
-            }
-
-            code.Append("\t}\n\n");
-
-            if (extentionClass == "BaseUI")
-            {
-                code.Append("\tpublic override void DelEvent()\n");
-            }
-            else
-            {
-                code.Append("\tpublic void DelEvent()\n");
-            }
-
-            code.Append("\t{\n");
-            foreach (var keyValuePair in _btnClickRemoveDic)
-            {
-                code.Append(keyValuePair.Value);
-            }
-
-            code.Append("\t}\n\n");
-            code.Append("\t#endregion\n\n");
-        }
+        // if (_btnClickAddDic.Count > 0)
+        // {
+        //     code.Append("\t#region 自动注册\\销毁按钮事件\n\n");
+        //     if (extentionClass == "BaseUI")
+        //     {
+        //         code.Append("\tpublic override void AddEvent()\n");
+        //     }
+        //     else
+        //     {
+        //         code.Append("\tpublic void AddEvent()\n");
+        //     }
+        //
+        //     code.Append("\t{\n");
+        //     foreach (var keyValuePair in _btnClickAddDic)
+        //     {
+        //         code.Append(keyValuePair.Value);
+        //     }
+        //
+        //     code.Append("\t}\n\n");
+        //
+        //     if (extentionClass == "BaseUI")
+        //     {
+        //         code.Append("\tpublic override void DelEvent()\n");
+        //     }
+        //     else
+        //     {
+        //         code.Append("\tpublic void DelEvent()\n");
+        //     }
+        //
+        //     code.Append("\t{\n");
+        //     foreach (var keyValuePair in _btnClickRemoveDic)
+        //     {
+        //         code.Append(keyValuePair.Value);
+        //     }
+        //
+        //     code.Append("\t}\n\n");
+        //     code.Append("\t#endregion\n\n");
+        // }
 
         code.Append("\n\t#endregion 自动生成可替换代码结束\n\n");
 
-        if (extentionClass != "BaseUI" && !isReGet)
-        {
-            code.Append("\tpublic void Init()\n");
-            code.Append("\t{\n");
-            code.Append("\t\tDelEvent();\n");
-            code.Append("\t\tAddEvent();\n");
-            code.Append("\t}\n");
-        }
+        // if (extentionClass != "BaseUI" && !isReGet)
+        // {
+        //     code.Append("\tpublic void Init()\n");
+        //     code.Append("\t{\n");
+        //     code.Append("\t\tDelEvent();\n");
+        //     code.Append("\t\tAddEvent();\n");
+        //     code.Append("\t}\n");
+        // }
 
         if (!isReGet)
         {
@@ -380,7 +376,6 @@ public class FairyCodeTool : BaseWindow
                         bool isIgnor = false;
                         bool isAdd = false;
 
-
                         while (!reader.EndOfStream)
                         {
                             string s = reader.ReadLine() + "\n";
@@ -408,7 +403,6 @@ public class FairyCodeTool : BaseWindow
                     }
                 }
 
-
                 File.WriteAllText(path + $"{className}.cs", ss.ToString());
 
                 Debug.LogError("脚本已存在，重新导入成功");
@@ -416,7 +410,8 @@ public class FairyCodeTool : BaseWindow
             else
             {
                 File.WriteAllText(path + $"{className}.cs", code.ToString());
-                GenerateETCode.GenerateCode(className);
+                GenerateETCode.GenerateETComponentCode(className,extentionClass);
+                GenerateETCode.GenerateETComponentSystemCode(className, comName, packgeName,extentionClass);
                 Debug.Log("代码自动生成成功");
                 AssetDatabase.Refresh();
             }
@@ -431,19 +426,21 @@ public class FairyCodeTool : BaseWindow
 
     private string GenerateEnumCode(List<UIPackage> packages)
     {
-        DirectoryInfo info = new DirectoryInfo(baseScriptPath);
+        string path = Application.dataPath.Replace("Unity/Assets", "Unity/Codes/Model/Demo/FGUI/ClassBasic/");
+        DirectoryInfo info = new DirectoryInfo(path);
         if (!info.Exists)
         {
-            Directory.CreateDirectory(baseScriptPath);
+            Directory.CreateDirectory(path);
         }
 
-        string filePath = baseScriptPath + "UIHelper.cs";
+        string filePath = path + "UIFGUIHelper.cs";
 
         StringBuilder code = new StringBuilder();
 
         code.Append("using FairyGUI;\n");
-        code.Append("using BaseClass;\n\n");
-        code.Append("public static class UIHelper\n");
+        code.Append("namespace ET");
+        code.Append("{\n");
+        code.Append("public static class UIFGUIHelper\n");
         code.Append("{\n");
         code.Append("\tpublic static void RegisterCompoment()\n");
         code.Append("\t{");
@@ -509,6 +506,7 @@ public class FairyCodeTool : BaseWindow
         code.Append("}\n\n");
         code.Append("#endregion\n\n");
 
+        code.Append("}\n\n");
         File.WriteAllText(filePath, code.ToString());
         AssetDatabase.Refresh();
         Debug.Log("代码自动生成成功");
@@ -555,8 +553,8 @@ public class FairyCodeTool : BaseWindow
 
                 setTxtBuilder.Append("\t\t" + GetName(comName, parentName) + ".text" + " = \"\";\n");
             }
-            
-            if (string.Equals(typeName, "GTextInput"))//输入文本
+
+            if (string.Equals(typeName, "GTextInput")) //输入文本
             {
                 if (!_setTxtDic.TryGetValue(typeName, out StringBuilder setTxtBuilder))
                 {
@@ -566,10 +564,6 @@ public class FairyCodeTool : BaseWindow
 
                 setTxtBuilder.Append("\t\t" + GetName(comName, parentName) + ".text" + " = \"\";\n");
             }
-            
-            
-            
-
 
             if (string.Equals(typeName, "GButton"))
             {
@@ -588,7 +582,7 @@ public class FairyCodeTool : BaseWindow
                 }
 
                 btnClickRemoveBuilder.Append("\t\t" + GetName(comName, parentName) +
-                                             $".onClick.Remove(OnClick{comName});\n");
+                    $".onClick.Remove(OnClick{comName});\n");
 
                 StringBuilder methodBuilder = new StringBuilder();
                 methodBuilder.Append(GetMethodStr("OnClick" + comName));
@@ -600,8 +594,8 @@ public class FairyCodeTool : BaseWindow
         {
             GComponent com = view as GComponent;
             if (com.numChildren > 0 && (FairyCodeHelper.GetType(com.name, view) == "GButton" ||
-                                        FairyCodeHelper.GetType(com.name, view) == "GProgressBar" ||
-                                        FairyCodeHelper.GetType(com.name, view) == "GComponent" || com.name == ""))
+                FairyCodeHelper.GetType(com.name, view) == "GProgressBar" ||
+                FairyCodeHelper.GetType(com.name, view) == "GComponent" || com.name == ""))
             {
                 GetTransition(com, parentName, extention);
                 GetController(com, parentName, extention);
@@ -663,7 +657,7 @@ public class FairyCodeTool : BaseWindow
             else
             {
                 getBuilder.Append(GetName(com.name, parentName) + ".GetTransition(\"" + com.Transitions[i].name +
-                                  "\")" + ";\n");
+                    "\")" + ";\n");
             }
         }
     }
@@ -709,7 +703,7 @@ public class FairyCodeTool : BaseWindow
             else
             {
                 getBuilder.Append(GetName(com.name, parentName) + ".GetController(\"" + com.Controllers[i].name +
-                                  "\")" + ";\n");
+                    "\")" + ";\n");
             }
         }
     }

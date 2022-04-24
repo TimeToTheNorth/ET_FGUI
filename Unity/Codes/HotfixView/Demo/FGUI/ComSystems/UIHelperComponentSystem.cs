@@ -31,6 +31,7 @@ namespace ET
             UIConfig.bringWindowToFrontOnClick = false;
             UIConfig.modalLayerColor = new Color(0f, 0f, 0f, 0.5f);
             GRoot.inst.SetContentScaleFactor(1920, 1080, UIContentScaler.ScreenMatchMode.MatchWidth); //设置设计分辨率
+            UIFGUIHelper.RegisterCompoment();
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace ET
                 baseUi.SetValues(values);
                 baseUi.OpenPanel();
 
-                if (isBlack) 
+                if (isBlack)
                 {
                     if (self._blackPanel == null)
                     {
@@ -73,7 +74,7 @@ namespace ET
 
         public static BaseUI OpenWindow(this UIManagerComponent self, BaseUI baseUI, UiLayer layer = UiLayer.Middle)
         {
-                self.GetUIAsset(baseUI,baseUI.UiEnum, baseUI.SelfUIPackageEnum);
+            self.GetUIAsset(baseUI, baseUI.UiEnum, baseUI.SelfUIPackageEnum);
             if (baseUI == null) return null;
             if (!baseUI.isShowing)
             {
@@ -84,6 +85,7 @@ namespace ET
                 baseUI.sortingOrder = (int)layer + self._openedUiDictionary.Count;
 
                 baseUI.OpenPanel();
+              
             }
 
             return baseUI;
@@ -97,16 +99,15 @@ namespace ET
             {
                 string name = GetClassName(className.ToString());
                 UIPackage.AddPackage("FGUI/" + packageName);
-                window =LoadWindow(name);
+                window = LoadWindow(name);
                 window.contentPane = UIPackage.CreateObject(packageName.ToString(), className.ToString()).asCom;
-                
-                
-                if (window.contentPane.GetChild("AdaptivePanel") != null &&  self.IsFullScreen)
+
+                if (window.contentPane.GetChild("AdaptivePanel") != null && self.IsFullScreen)
                 {
                     window.contentPane.GetChild("AdaptivePanel").y += self.UiMoveDis;
                     window.contentPane.GetChild("AdaptivePanel").height -= self.UiMoveDis;
-                }//全面屏适配
-                
+                } //全面屏适配
+
                 if (window == null)
                 {
                     Debug.LogWarning("OpenWindow create window " + name + " failed");
@@ -119,25 +120,23 @@ namespace ET
 
             return (BaseUI)window;
         }
-        
+
         //获取UI资源
         public static BaseUI GetUIAsset(this UIManagerComponent self, BaseUI baseUI, UIEnum className, UIPackageEnum packageName)
         {
             BaseUI window = null;
             if (!self._uiDictionary.TryGetValue(className, out window))
             {
-            
                 UIPackage.AddPackage("FGUI/" + packageName);
                 window = baseUI;
                 window.contentPane = UIPackage.CreateObject(packageName.ToString(), className.ToString()).asCom;
-                
-                
-                if (window.contentPane.GetChild("AdaptivePanel") != null &&  self.IsFullScreen)
+
+                if (window.contentPane.GetChild("AdaptivePanel") != null && self.IsFullScreen)
                 {
                     window.contentPane.GetChild("AdaptivePanel").y += self.UiMoveDis;
                     window.contentPane.GetChild("AdaptivePanel").height -= self.UiMoveDis;
-                }//全面屏适配
-                
+                } //全面屏适配
+
                 self._uiDictionary.Add(className, window);
             }
 
@@ -159,7 +158,7 @@ namespace ET
         }
 
         //加载界面
-        public static BaseUI LoadWindow( string name)
+        public static BaseUI LoadWindow(string name)
         {
             Type t = CodeLoader.Instance.GetAssembly().GetType("ET." + name);
 
@@ -188,6 +187,20 @@ namespace ET
                 else Debug.LogWarning("CloseWindow window " + className + " not in showing");
             }
             else Debug.LogWarning("CloseWindow window " + className + " not created");
+        }
+
+        public static void CloseWindow(this UIManagerComponent self, BaseUI baseUi)
+        {
+            if (baseUi.isBlack && self._blackPanel != null)
+            {
+                self._blackPanel.Pop();
+            }
+
+            if (baseUi.isShowing)
+            {
+                baseUi.ClosePanel();
+                self._openedUiDictionary.Remove(baseUi.UiEnum);
+            }
         }
 
         /// <summary>
@@ -319,7 +332,6 @@ namespace ET
             self.IsPreload = false;
         }
 
-        
         /// <summary>
         /// 显示文本
         /// </summary>
@@ -343,7 +355,16 @@ namespace ET
         public static void PreSetText(this UIManagerComponent self, Dictionary<int, long> currencies = null)
         {
         }
-        
-  
+
+        public static void TurnToOpenPanel(this UIManagerComponent self, BaseUI baseUI, UIEnum className, UiLayer layer = UiLayer.Middle,
+        UIPackageEnum packageName = UIPackageEnum.Null, bool isModal = false,
+        params object[] values)
+        {
+            baseUI.children = Game.Scene.GetComponent<UIManagerComponent>().OpenWindow(className, packageName, layer, isModal, values);
+            if (baseUI.children != null)
+            {
+                baseUI.children.Selfparent = baseUI.children;
+            }
+        }
     }
 }

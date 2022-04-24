@@ -14,7 +14,7 @@ namespace ET
     {
         public static void Awake(this BlackPanelComponent self)
         {
-            self.blackPanel = UIPackage.CreateObject(UIPackageEnum.Public.ToString(), "Com_Black") as GComponent;
+            self.blackPanel = UIPackage.CreateObject(UIPackageEnum.Null.ToString(), "Com_Black") as GComponent;
 
             //全屏界面适配
             self.blackPanel.SetSize(GRoot.inst.width, GRoot.inst.height);

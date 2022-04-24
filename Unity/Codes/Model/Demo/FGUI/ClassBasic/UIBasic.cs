@@ -47,7 +47,7 @@ namespace ET
             //全屏界面适配
             contentPane.SetSize(GRoot.inst.width, GRoot.inst.height);
             
-
+            
             //获取组件
             GetAllComponent();
         }

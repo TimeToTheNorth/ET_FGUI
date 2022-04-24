@@ -596,7 +596,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Codes\Model\Demo\FGUI\ComBasics\Main" />
+    <Folder Include="Codes\Model\Demo\FGUI\ComBasics\MainPackage" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
