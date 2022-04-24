@@ -146,7 +146,7 @@ public class FairyCodeTool: BaseWindow
 
         EditorGUILayout.BeginHorizontal();
         GUILayout.Label("主界面  \"Panel_\"\n装载器  \"Loader_\"\n进度条  \"Pro_\"\n按钮     \"Btn_\"\n文本     \"Text_\"\n图片     \"Image_\"\n组件   " +
-            "  \"Com_\"\n列表     \"List_\"\n图像     \"Graph_\"\n组       \"Group_\" \n输入文本       \"TextInput_\" \n");
+            "  \"Com_\"\n列表     \"List_\"\n图像     \"Graph_\"\n组       \"Group_\" \n输入文本       \"TextInput_\"    \n扩展组件  \"Unit_");
         EditorGUILayout.EndHorizontal();
         GUILayout.EndVertical();
         GUILayout.EndHorizontal();
