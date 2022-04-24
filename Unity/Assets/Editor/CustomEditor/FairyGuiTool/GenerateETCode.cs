@@ -25,8 +25,16 @@ public static class GenerateETCode
         string etClass = null;
         etClass = (string)ClassName.Clone();
         etClass = GetClassName(etClass);
-        code.Append("namespace ET\n{");
 
+        string newPath = path + $"{etClass}.cs";
+
+        if (File.Exists(newPath))
+        {
+            Debug.Log("脚本已经存在了不再生成");
+            return; //脚本存在就返回了
+        }
+
+        code.Append("namespace ET\n{");
         string InheritClassName = "Entity," + "IAwake";
         if (extensionClass != "BaseUI")
         {
@@ -79,13 +87,21 @@ public static class GenerateETCode
         etClass = (string)ClassName.Clone();
         etClass = GetClassName(etClass);
 
+        string newPath1 = path + $"{etClass}System.cs";
+        if (File.Exists(newPath1))
+        {
+            Debug.Log("脚本已经存在了不再生成");
+            return; //脚本存在就返回了
+        }
+
         code.Append("using FairyGUI;\n");
         code.Append("namespace ET\n{");
         if (ClassName.Contains("UnitComponentData")) //如果是扩展组件
         {
             GenerateETUnitComponentSystemCode(code, etClass, ClassName, extensionClass);
             code.Append("}\n");
-            File.WriteAllText(path + $"{etClass}System.cs", code.ToString());
+
+            File.WriteAllText(newPath1, code.ToString());
             return;
         }
 
